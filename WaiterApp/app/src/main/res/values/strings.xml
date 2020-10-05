@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WaiterApp</string>
+    <string name="clear_button">Clear</string>
+    <string name="deliver_button">Deliver</string>
+</resources>

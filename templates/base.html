@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    {#    	<title>Waitless Manager</title>#}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <title>{% block header %} {% endblock %}</title>
+
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- Side Navigation Menu -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Side Nav Bar Branding (logo) -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('add_categoryy') }}">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">WAITLESS</div>
+        </a>
+        <!-- Nav Item - Preview Menu -->
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Preview
+        </div>
+        <!-- Nav Item - View Categories -->
+        <li class="nav-item" id="view-cat">
+            <a class="nav-link" href="{{ url_for('view_categories') }}">
+                <i class="fas fa-fw fa-edit"></i>
+                <span>View Menu</span></a>
+        </li>
+        <!-- Nav Item - View Items -->
+        <li class="nav-item" id="view-item">
+            <a class="nav-link" href="{{ url_for('view_items') }}">
+                <i class="fas fa-fw fa-eye"></i>
+                <span>View All Items</span></a>
+        </li>
+
+        <!-- Side Nav Bar Add To Menu Section -->
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            ADD TO MENU
+        </div>
+        <!-- Nav Item - Add Categories -->
+        <li class="nav-item" id="add-cat">
+            <a class="nav-link" href="{{ url_for('add_categoryy') }}">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Add Categories</span></a>
+        </li>
+        <!-- Nav Item - Add items -->
+        <li class="nav-item" id="add-item">
+            <a class="nav-link" href="{{ url_for('add_item') }}">
+                <i class="fas fa-fw fa-plus"></i>
+                <span>Add Items</span></a>
+        </li>
+
+        <!-- Side Nav Bar Edit Menu Section -->
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">Edit Menu Appearance Order</div>
+        <div class="" id="category_list">
+        </div>
+    </ul>
+
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid" style="padding-top: 1.5em;">
+                <div id="root" class="main">
+                    <div id="content" class="container">
+                        {% block body %} {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Waitless 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+<script type="text/javascript">{% include "navbar.js" %}</script>
+<script type="text/javascript" crossorigin="use-credentials"> {% include "index.js" %}</script>
+<!-- Bootstrap 4 -->
+<!-- Bootstrap core JavaScript-->
+<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Core plugin JavaScript-->
+<script src="https://unpkg.com/web-animations-js@2.3.2/web-animations.min.js"></script>
+<script src="https://unpkg.com/muuri@0.8.0/dist/muuri.min.js"></script>
+<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+
+{% for category in categories %}
+<script>add_navbar_category('{{ category['name'] }}');</script>
+{% endfor %}
+<script>init_navbar_drag();</script>
+<!-- external javascript -->
+{% block javascript %} {% endblock %}
+</body>
+
+</html>

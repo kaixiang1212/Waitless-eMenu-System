@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block header %}
+    Add Category
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h1 class="h3 my-2 text-gray-800">Add Category</h1>
+    </div>
+    <form id='create-item-form' method="post" action="{{ url_for('add_categoryy')}}" enctype=multipart/form-data>
+        {{ form.category_name.label(class_='col-form-label') }}
+        {{ form.category_name(class_='form-control') }}<p></p>
+        {{ form.submit(class_='success btn btn-success', **{'value':'Add Category'}) }}
+    </form>
+    <!-- /form -->
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        make_active('add-cat');
+    </script>
+{% endblock %}

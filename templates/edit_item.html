@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block header %}
+    Add Item
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h1 class="h3 my-2 text-gray-800">Add Menu Item</h1>
+    </div>
+    <form id='create-item-form' method="post" enctype=multipart/form-data>
+        <!--Title-->
+        {{ form.title.label(class_="col-form-label") }}
+        {{ form.title(size=30, class_="form-control", value_="") }}
+        <!--Description-->
+        {{ form.description.label(class_="col-form-label") }}<br>
+        {{ form.description(class_="form-control") }}
+        <!--Price-->
+        {{ form.price.label(class_="col-form-label") }}<br>
+        <div class='input-group mb-3'>
+            <div class='input-group-prepend'>
+                <span class='input-group-text'>$</span>
+            </div>
+            {{ form.price(class_="form-control") }}
+        </div>
+        <!--Category-->
+        {{ form.category.label(class_="col-form-label") }}<br>
+        {{ form.category(class_="selectpicker", **{'data-live-search': 'true'}) }}<br><p></p>
+        <!--Ingredients-->
+        <label class="col-form-label" for="ingredient">Ingredient</label>
+        <input name="ingredient" type="text" data-role="tagsinput" value=""><p></p>
+        <!-- Submit -->
+        {{ form.submit(class_="success btn btn-success", **{'value': "Save changes"}) }}
+        {{ form.submit(class_="removal btn btn-danger", **{'value': "Delete item"}) }}
+    </form>
+    <!-- /form -->
+{% endblock %}
+
+{% block javascript %}
+    <!-- Tags -->
+    <link href="{{ url_for('static', filename='tagsinput.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ url_for('static', filename='tagsinput.js') }}"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        make_active('view-item');
+        $('#category-select-options').selectpicker();
+        const picker = document.getElementsByName('ingredient');
+        var ingredients = {{ ingredients|safe }};
+        var i;
+        $(picker).tagsinput();
+        for (i of ingredients){
+            $(picker).tagsinput('add', i);
+        }
+    </script>
+
+{% endblock %}

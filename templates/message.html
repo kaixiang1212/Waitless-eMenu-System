@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block header %}
+    {{ header }}
+{% endblock %}
+{% block body %}
+    <div class="page-header">
+        <h1>{{ page_header }}</h1>
+    </div>
+    <div>
+        <p>{{ message }}</p>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}

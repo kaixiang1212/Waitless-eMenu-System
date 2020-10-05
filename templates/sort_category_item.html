@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block header %}
+    {{ category_name }}
+{% endblock %}
+{% block body %}
+    <style>
+        .grid {
+            position: relative;
+            margin: 0;
+        }
+
+        .item {
+            display: block;
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            margin: 5px;
+        }
+
+        .category {
+            display: block;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .item-content {
+            width: 200px;
+        }
+
+        .item.muuri-item-dragging {
+            z-index: 3;
+        }
+
+        .item.muuri-item-releasing {
+            z-index: 2;
+        }
+
+        .item.muuri-item-hidden {
+            z-index: 0;
+        }
+    </style>
+    <div class="page-header">
+        <h1 class="h3 my-2 text-gray-800">{{ category_name }}
+        <input id="save-order-btn" type="button" value="Save" class="btn btn-primary" style="float: right"></h1>
+    </div>
+    <div class="grid grid-2 col-lg-9" id="menuItemGrid">
+        {% for item in category_items %}
+            <div class="item card" style=" width: 21rem;" data-id="{{ item['_id'] }}">
+                <a href="#"><img class="card-img-top" width="600" height="200" src="{{ url_for('static', filename="uploads/"+item['imagePath']) }}" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">{{ item['name'] }}</h4>
+                    <h5>${{ item['cost'] }}</h5>
+                    <p class="card-text">{{ item['description'] }}</p>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    {% for ingredient in item['ingredients'] %}
+                        <span class="badge badge-info">
+                                {{ ingredient }}
+                            </span>
+                    {% endfor %}
+                    {% if item['ingredients'] == [] %}
+                        <span class="badge badge-light"> </span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- /.grid -->
+{% endblock body %}
+{% block javascript %}
+    <!-- Drag and Drop JS -->
+    <script src="{{ url_for('static', filename='dragdrop.js') }}"></script>
+    <script>
+        make_active('{{ category_name }}');
+        const save_btn = document.getElementById('save-order-btn');
+        save_btn.addEventListener('click', save_btn_press);
+
+        async function save_btn_press() {
+            const head = {'Content-Type': 'text/plain'};
+            save_btn.disabled = true;
+            const obj_array = grid2.getItems().map(item => item.getElement().getAttribute('data-id'));
+            let data = {};
+            data['category_name'] = '{{ category_name }}';
+            data['data'] = obj_array;
+            try {
+                const response = await fetch('/management/update_item_order', {
+                    method: 'POST',
+                    headers: head,
+                    body: JSON.stringify(data)
+                });
+                if (response.status !== 200) {
+                    alert("Failed saving item priority");
+                }
+                console.log(response);
+            } catch (e) {
+                alert("Failed saving item priority");
+                save_btn.disabled = false;
+            }
+            save_btn.disabled = false;
+        }
+
+    </script>
+{% endblock %}
